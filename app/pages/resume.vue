@@ -36,55 +36,13 @@ useHead({
   ],
 })
 
-// Placeholder resume data
-// To make this dynamic, create a "Resume" content type in Contentful
-// and fetch it the same way the Author data is fetched.
-const experience = [
-  {
-    role: 'Senior Software Engineer',
-    company: 'Tech Company',
-    period: '2022 – Present',
-    description: 'Leading frontend architecture and building scalable web applications with modern frameworks.',
-  },
-  {
-    role: 'Software Engineer',
-    company: 'Another Company',
-    period: '2019 – 2022',
-    description: 'Developed and maintained full-stack applications, improved CI/CD pipelines, and mentored junior developers.',
-  },
-  {
-    role: 'Junior Developer',
-    company: 'First Company',
-    period: '2017 – 2019',
-    description: 'Started career building web applications and learning best practices in software development.',
-  },
-]
+const { data: resume } = await useAsyncData('resume', () =>
+  $fetch('/api/resume')
+)
 
-const education = [
-  {
-    role: 'Computer Science Degree',
-    company: 'University',
-    period: '2013 – 2017',
-    description: 'Studied computer science with a focus on software engineering and web technologies.',
-  },
-]
-
-const skills = [
-  'JavaScript',
-  'TypeScript',
-  'Vue.js',
-  'Nuxt',
-  'React',
-  'Node.js',
-  'CSS',
-  'HTML',
-  'Git',
-  'REST APIs',
-  'GraphQL',
-  'Docker',
-  'CI/CD',
-  'Agile',
-]
+const experience = computed(() => (resume.value as any)?.experience || [])
+const education = computed(() => (resume.value as any)?.education || [])
+const skills = computed(() => (resume.value as any)?.skills || [])
 </script>
 
 <style scoped>

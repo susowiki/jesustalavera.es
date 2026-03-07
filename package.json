@@ -13,6 +13,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@contentful/rich-text-html-renderer": "^17.1.6",
     "@nuxtjs/google-fonts": "^3.2.0",
     "contentful": "^11.10.5",
     "nuxt": "^4.3.1",

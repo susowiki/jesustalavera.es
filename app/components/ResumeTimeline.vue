@@ -18,7 +18,7 @@
             <span class="timeline-period">{{ item.period }}</span>
           </div>
           <p class="timeline-company">{{ item.company }}</p>
-          <p v-if="item.description" class="timeline-desc">{{ item.description }}</p>
+          <div v-if="item.description" class="timeline-desc" v-html="item.description"></div>
         </div>
       </div>
     </div>
@@ -141,6 +141,14 @@ defineProps<Props>()
   font-size: var(--text-sm);
   color: var(--color-text-muted);
   line-height: 1.6;
+}
+
+:deep(.timeline-desc p) {
+  margin-bottom: var(--space-2);
+}
+
+:deep(.timeline-desc p:last-child) {
+  margin-bottom: 0;
 }
 
 @media (max-width: 768px) {
