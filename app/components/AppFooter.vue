@@ -4,6 +4,9 @@
       <div class="footer-brand">
         <span class="footer-logo">JT</span>
         <p class="footer-copy">&copy; {{ currentYear }} Jesús Talavera. All rights reserved.</p>
+        <p class="footer-tech">
+          Built with <strong>Vue / Nuxt 4</strong>, <strong>Contentful</strong> & <strong>Netlify</strong>
+        </p>
       </div>
 
       <div class="footer-links">
@@ -97,6 +100,18 @@ const socialLinks = computed(() => {
 .footer-copy {
   font-size: var(--text-sm);
   color: var(--color-text-muted);
+}
+
+.footer-tech {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  opacity: 0.8;
+  margin-top: var(--space-1);
+}
+
+.footer-tech strong {
+  color: var(--color-text-secondary);
+  font-weight: 500;
 }
 
 .footer-links {

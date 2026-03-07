@@ -60,10 +60,24 @@ export default defineEventHandler(async () => {
             })
         }
 
+        const assets = await client.getAssets({
+            'fields.title[match]': 'Resume Jesus Talavera',
+            limit: 1,
+        })
+        let resumeUrl = ''
+        if (assets.items.length > 0) {
+            const file = (assets.items[0].fields as any).file
+            if (file && file.url) {
+                resumeUrl = file.url.startsWith('//') ? `https:${file.url}` : file.url
+            }
+        }
+
         return {
             experience: mapCards(fields.experience),
             education: mapCards(fields.education),
             skills: (fields.skills as string[]) || [],
+            updatedAt: (resume as any)?.sys?.updatedAt || '',
+            resumeUrl,
         }
     } catch (error) {
         console.error('Failed to fetch resume from Contentful:', error)
