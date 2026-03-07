@@ -5,7 +5,7 @@
         <div class="resume-title-wrap">
           <div>
             <h1 class="section-title">Resume</h1>
-            <p class="section-subtitle">My professional background and skills.</p>
+            <p v-if="subtitle" class="section-subtitle">{{ subtitle }}</p>
           </div>
           
           <div class="resume-actions">
@@ -64,6 +64,7 @@ const { data: resume } = await useAsyncData('resume', () =>
   $fetch('/api/resume')
 )
 
+const subtitle = computed(() => (resume.value as any)?.title || 'My professional background and skills.')
 const experience = computed(() => (resume.value as any)?.experience || [])
 const education = computed(() => (resume.value as any)?.education || [])
 const skills = computed(() => (resume.value as any)?.skills || [])

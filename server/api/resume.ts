@@ -73,6 +73,7 @@ export default defineEventHandler(async () => {
         }
 
         return {
+            title: (fields.title as string) || '',
             experience: mapCards(fields.experience),
             education: mapCards(fields.education),
             skills: (fields.skills as string[]) || [],
