@@ -2,37 +2,47 @@
   <section class="hero">
     <div class="hero-bg"></div>
     <div class="container hero-inner">
-      <div class="hero-content animate-fade-in-up">
-        <p class="hero-greeting">Hello, I'm</p>
-        <h1 class="hero-name">{{ name }}</h1>
-        <p class="hero-tagline">Software Engineer</p>
-        <p v-if="bio" class="hero-bio">{{ bio }}</p>
+      <div class="hero-content">
+        <p class="hero-greeting">
+          <span class="typewriter-text">{{ displayedGreeting }}</span>
+        </p>
+        <h1 class="hero-name">
+          <span class="typewriter-text">{{ displayedName }}</span>
+          <span class="typewriter-cursor" :class="{ hidden: typingDone }">|</span>
+        </h1>
 
-        <div class="hero-actions delay-3 animate-fade-in-up">
-          <NuxtLink to="/resume" class="btn btn-primary">View Resume</NuxtLink>
-          <div class="hero-socials">
-            <a
-              v-if="twitter"
-              :href="twitter"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="social-icon"
-              aria-label="Twitter"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16h-4.267z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg>
-            </a>
-            <a
-              v-if="linkedin"
-              :href="linkedin"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="social-icon"
-              aria-label="LinkedIn"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            </a>
+        <Transition name="fade-up">
+          <div v-if="typingDone" class="hero-rest">
+            <p class="hero-tagline">Software Engineer</p>
+            <p v-if="bio" class="hero-bio">{{ bio }}</p>
+
+            <div class="hero-actions">
+              <NuxtLink to="/resume" class="btn btn-primary">View Resume</NuxtLink>
+              <div class="hero-socials">
+                <a
+                  v-if="twitter"
+                  :href="twitter"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="social-icon"
+                  aria-label="Twitter"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16h-4.267z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg>
+                </a>
+                <a
+                  v-if="linkedin"
+                  :href="linkedin"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="social-icon"
+                  aria-label="LinkedIn"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </a>
+              </div>
+            </div>
           </div>
-        </div>
+        </Transition>
       </div>
 
       <div class="hero-image-wrapper animate-fade-in delay-2" v-if="imageUrl">
@@ -52,7 +62,43 @@ interface Props {
   linkedin?: string
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
+
+const greeting = "Hello, I'm"
+const displayedGreeting = ref('')
+const displayedName = ref('')
+const typingDone = ref(false)
+
+const SPEED = 70 // ms per character
+const PAUSE_BETWEEN = 300 // ms pause between greeting and name
+
+onMounted(() => {
+  let i = 0
+
+  // Phase 1: type the greeting
+  const typeGreeting = setInterval(() => {
+    displayedGreeting.value = greeting.slice(0, i + 1)
+    i++
+    if (i >= greeting.length) {
+      clearInterval(typeGreeting)
+      // Phase 2: type the name after a brief pause
+      setTimeout(() => {
+        let j = 0
+        const typeName = setInterval(() => {
+          displayedName.value = props.name.slice(0, j + 1)
+          j++
+          if (j >= props.name.length) {
+            clearInterval(typeName)
+            // Brief pause then reveal rest of content
+            setTimeout(() => {
+              typingDone.value = true
+            }, 400)
+          }
+        }, SPEED)
+      }, PAUSE_BETWEEN)
+    }
+  }, SPEED)
+})
 </script>
 
 <style scoped>
@@ -88,18 +134,51 @@ defineProps<Props>()
   margin-bottom: var(--space-2);
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  min-height: 1.5em;
 }
 
 .hero-name {
   font-size: var(--text-6xl);
   font-weight: 800;
   margin-bottom: var(--space-4);
+  min-height: 1.2em;
+}
+
+.hero-name .typewriter-text {
   background: var(--gradient-accent);
   background-size: 200% 200%;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradientShift 6s ease infinite;
+}
+
+/* Blinking cursor */
+.typewriter-cursor {
+  display: inline-block;
+  color: var(--color-accent-light);
+  font-weight: 300;
+  animation: blink 0.7s step-end infinite;
+  margin-left: 2px;
+  -webkit-text-fill-color: var(--color-accent-light);
+}
+
+.typewriter-cursor.hidden {
+  display: none;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* Fade-up for content after typewriter */
+.fade-up-enter-active {
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-up-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
 }
 
 .hero-tagline {
