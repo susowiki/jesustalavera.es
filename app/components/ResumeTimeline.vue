@@ -1,0 +1,160 @@
+<template>
+  <div class="timeline">
+    <h3 class="timeline-title">{{ title }}</h3>
+    <div class="timeline-items">
+      <div
+        v-for="(item, index) in items"
+        :key="index"
+        class="timeline-item animate-fade-in-up"
+        :class="'delay-' + ((index % 5) + 1)"
+      >
+        <div class="timeline-marker">
+          <span class="timeline-dot"></span>
+          <span v-if="index < items.length - 1" class="timeline-line"></span>
+        </div>
+        <div class="timeline-card glass-card">
+          <div class="timeline-header">
+            <h4 class="timeline-role">{{ item.role }}</h4>
+            <span class="timeline-period">{{ item.period }}</span>
+          </div>
+          <p class="timeline-company">{{ item.company }}</p>
+          <p v-if="item.description" class="timeline-desc">{{ item.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+interface TimelineItem {
+  role: string
+  company: string
+  period: string
+  description?: string
+}
+
+interface Props {
+  title: string
+  items: TimelineItem[]
+}
+
+defineProps<Props>()
+</script>
+
+<style scoped>
+.timeline {
+  margin-bottom: var(--space-12);
+}
+
+.timeline-title {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  margin-bottom: var(--space-8);
+  color: var(--color-accent-light);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.timeline-title::before {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 24px;
+  background: var(--gradient-accent);
+  border-radius: 2px;
+}
+
+.timeline-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.timeline-item {
+  display: flex;
+  gap: var(--space-6);
+}
+
+.timeline-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  padding-top: var(--space-6);
+}
+
+.timeline-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+  background: var(--color-accent);
+  box-shadow: 0 0 12px var(--color-accent-glow);
+  flex-shrink: 0;
+}
+
+.timeline-line {
+  width: 2px;
+  flex: 1;
+  background: linear-gradient(180deg, var(--color-accent) 0%, transparent 100%);
+  margin-top: var(--space-2);
+}
+
+.timeline-card {
+  padding: var(--space-6);
+  margin-bottom: var(--space-4);
+  flex: 1;
+}
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+  margin-bottom: var(--space-2);
+}
+
+.timeline-role {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.timeline-period {
+  font-size: var(--text-xs);
+  color: var(--color-accent-light);
+  background: rgba(99, 102, 241, 0.1);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.timeline-company {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-3);
+  font-weight: 500;
+}
+
+.timeline-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .timeline-header {
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .timeline-marker {
+    display: none;
+  }
+
+  .timeline-card {
+    margin-left: 0;
+  }
+}
+</style>
