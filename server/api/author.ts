@@ -24,6 +24,7 @@ export default defineEventHandler(async () => {
                 imageUrl: '',
                 twitter: '',
                 linkedin: '',
+                github: '',
             }
         }
 
@@ -42,6 +43,7 @@ export default defineEventHandler(async () => {
             imageUrl,
             twitter: (fields.twitterProfile as string) || '',
             linkedin: (fields.linkedinProfile as string) || '',
+            github: (fields.gitHubProfile as string) || '',
         }
     } catch (error) {
         console.error('Failed to fetch author from Contentful:', error)
@@ -51,6 +53,7 @@ export default defineEventHandler(async () => {
             imageUrl: '',
             twitter: '',
             linkedin: '',
+            github: '',
         }
     }
 })

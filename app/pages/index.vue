@@ -6,6 +6,7 @@
       :image-url="author?.imageUrl || ''"
       :twitter="author?.twitter || ''"
       :linkedin="author?.linkedin || ''"
+      :github="author?.github || ''"
     />
   </div>
 </template>
