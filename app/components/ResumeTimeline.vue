@@ -13,12 +13,15 @@
           <span v-if="index < items.length - 1" class="timeline-line"></span>
         </div>
         <div class="timeline-card glass-card">
-          <div class="timeline-header">
-            <h4 class="timeline-role">{{ item.role }}</h4>
-            <span class="timeline-period">{{ item.period }}</span>
+          <img v-if="item.logo" :src="item.logo" :alt="item.company || item.role" class="timeline-logo" />
+          <div class="timeline-card-content">
+            <div class="timeline-header">
+              <h4 class="timeline-role">{{ item.role }}</h4>
+              <span class="timeline-period">{{ item.period }}</span>
+            </div>
+            <p class="timeline-company">{{ item.company }}</p>
+            <div v-if="item.description" class="timeline-desc" v-html="item.description"></div>
           </div>
-          <p class="timeline-company">{{ item.company }}</p>
-          <div v-if="item.description" class="timeline-desc" v-html="item.description"></div>
         </div>
       </div>
     </div>
@@ -31,6 +34,7 @@ interface TimelineItem {
   company: string
   period: string
   description?: string
+  logo?: string
 }
 
 interface Props {
@@ -104,6 +108,24 @@ defineProps<Props>()
   padding: var(--space-6);
   margin-bottom: var(--space-4);
   flex: 1;
+  display: flex;
+  gap: var(--space-6);
+  align-items: flex-start;
+}
+
+.timeline-logo {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 4px solid var(--color-bg-secondary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-card-content {
+  flex: 1;
+  min-width: 0;
 }
 
 .timeline-header {
@@ -163,6 +185,19 @@ defineProps<Props>()
 
   .timeline-card {
     margin-left: 0;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-4);
+  }
+
+  .timeline-logo {
+    width: 100px;
+    height: 100px;
+  }
+
+  .timeline-header {
+    align-items: center;
   }
 }
 </style>

@@ -49,6 +49,14 @@ export default defineEventHandler(async () => {
             return cards.map((card) => {
                 const itemFields = card.fields || {}
 
+                let logoUrl = ''
+                if (itemFields.logo && itemFields.logo.fields && itemFields.logo.fields.file) {
+                    const url = itemFields.logo.fields.file.url
+                    const baseUrl = url.startsWith('//') ? `https:${url}` : url
+                    // Resize to 140x140 using Contentful Images API
+                    logoUrl = `${baseUrl}?w=140&h=140&fit=fill`
+                }
+
                 return {
                     role: itemFields.position || itemFields.companyName || '',
                     company: itemFields.position ? itemFields.companyName : '',
@@ -56,6 +64,7 @@ export default defineEventHandler(async () => {
                     description: itemFields.description
                         ? documentToHtmlString(itemFields.description as Document)
                         : '',
+                    logo: logoUrl,
                 }
             })
         }
