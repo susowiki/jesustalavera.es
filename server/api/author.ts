@@ -10,7 +10,7 @@ export default defineEventHandler(async () => {
 
     try {
         const entries = await client.getEntries({
-            content_type: '7pionUCdi3UEuos10iCf2c',
+            content_type: 'authorV2',
             limit: 1,
             include: 2,
         })
