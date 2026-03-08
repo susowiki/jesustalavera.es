@@ -75,8 +75,9 @@ export default defineEventHandler(async () => {
             limit: 1,
         })
         let resumeUrl = ''
-        if (assets.items.length > 0) {
-            const file = (assets.items[0].fields as any).file
+        const firstAsset = assets.items[0]
+        if (firstAsset) {
+            const file = (firstAsset.fields as any)?.file
             if (file && file.url) {
                 resumeUrl = file.url.startsWith('//') ? `https:${file.url}` : file.url
             }
