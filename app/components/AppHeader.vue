@@ -38,12 +38,16 @@
 const mobileOpen = ref(false)
 const isScrolled = ref(false)
 
+const onScroll = () => {
+  isScrolled.value = window.scrollY > 20
+}
+
 onMounted(() => {
-  const onScroll = () => {
-    isScrolled.value = window.scrollY > 20
-  }
   window.addEventListener('scroll', onScroll, { passive: true })
-  onUnmounted(() => window.removeEventListener('scroll', onScroll))
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', onScroll)
 })
 
 // Close mobile menu on route change
