@@ -13,7 +13,10 @@
           <span v-if="index < items.length - 1" class="timeline-line"></span>
         </div>
         <div class="timeline-card glass-card">
-          <img v-if="item.logo" :src="item.logo" :alt="item.company || item.role" class="timeline-logo" />
+          <a v-if="item.logo && item.logoUrl" :href="item.logoUrl" target="_blank" rel="noopener noreferrer" class="timeline-logo-link">
+            <img :src="item.logo" :alt="item.company || item.role" class="timeline-logo" />
+          </a>
+          <img v-else-if="item.logo" :src="item.logo" :alt="item.company || item.role" class="timeline-logo" />
           <div class="timeline-card-content">
             <div class="timeline-header">
               <h4 class="timeline-role">{{ item.role }}</h4>
@@ -35,6 +38,7 @@ interface TimelineItem {
   period: string
   description?: string
   logo?: string
+  logoUrl?: string
 }
 
 interface Props {
@@ -121,6 +125,17 @@ defineProps<Props>()
   flex-shrink: 0;
   border: 4px solid var(--color-bg-secondary);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.timeline-logo-link {
+  flex-shrink: 0;
+  display: block;
+}
+
+.timeline-logo-link:hover .timeline-logo {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 .timeline-card-content {

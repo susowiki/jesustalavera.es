@@ -65,6 +65,7 @@ export default defineEventHandler(async () => {
                         ? documentToHtmlString(itemFields.description as Document)
                         : '',
                     logo: logoUrl,
+                    logoUrl: itemFields.logoUrl || '',
                 }
             })
         }
