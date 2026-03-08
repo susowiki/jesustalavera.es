@@ -70,9 +70,7 @@ watch(() => route.path, () => {
 }
 
 .app-header.scrolled {
-  background: rgba(10, 14, 26, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(10, 14, 26, 0.98);
   box-shadow: 0 1px 0 var(--color-border);
 }
 
@@ -186,9 +184,7 @@ watch(() => route.path, () => {
   flex-direction: column;
   gap: var(--space-4);
   padding: var(--space-6);
-  background: rgba(10, 14, 26, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(10, 14, 26, 0.98);
   border-top: 1px solid var(--color-border);
 }
 
